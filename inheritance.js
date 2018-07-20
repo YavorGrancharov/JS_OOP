@@ -51,7 +51,7 @@ var myFruit = function Food() {
 book = {
     title: 'My Book',
     author: 'Yavor',
-    summary: function() {
+    summary: function () {
         return this.title + ' by ' + this.author
     }
 }
@@ -73,7 +73,7 @@ function Book(title, author) {
     this.title = title
     this.author = author
 
-    this.info = function() {
+    this.info = function () {
         return this.title + ' by ' + this.author
     }
 }
@@ -104,7 +104,7 @@ console.log(Capitan instanceof Sailor)
 console.log()
 
 //Prototype Chain
-class Meal{
+class Meal {
     constructor(type) {
         this.type = type || 'Hardcover'
     }
@@ -130,7 +130,7 @@ let comics = ["American Ninja", "Superman", "Batman"]
 let books = ["tarzan", "jungle book", "cinderella"]
 
 Object.defineProperty(Array.prototype, 'last', {
-    get: function() {
+    get: function () {
         return this[this.length - 1]
     }
 })
@@ -141,10 +141,108 @@ console.log(lastBook)
 console.log(lastComics)
 
 //Second Method
-Array.prototype.first = function() {
+Array.prototype.first = function () {
     return this[0]
 }
 
 let froots = ['bannana', 'kiwi', 'lemon']
 console.log(froots.first())
 
+//JS D Good Parts
+let myMammal = {
+    name: 'Herb',
+    getName: function () {
+        return this.name
+    },
+    says: function () {
+        return this.saying || ''
+    }
+}
+
+let myCat = Object.create(myMammal)
+myCat.name = 'Henrieta'
+myCat.saying = 'meow'
+myCat.purr = function (n) {
+    let i, s = ''
+    for (i = 0; i < n; i++) {
+        if (s) {
+            return s += '-'
+        }
+        s += 'r'
+    }
+    return s
+}
+
+myCat.getName = function () {
+    return this.says() + ' ' + this.name + ' ' + this.says()
+}
+
+console.log(myCat.getName())
+
+//Arrays
+let arr = ['one', 'two', 3, 4]
+console.log(arr)
+console.log(arr.length)
+arr.length = 3
+console.log(arr)
+console.log(arr.length)
+arr[arr.length] = 4
+console.log(arr)
+console.log(arr.length)
+arr.length = 3
+console.log(arr)
+arr.length = 4
+console.log(arr)
+
+//If is Array Function
+let isArray = function (prop) {
+    return prop &&
+        typeof prop === 'object' &&
+        typeof prop.length === 'number' &&
+        typeof prop.splice === 'function' &&
+        !(prop.propertyIsEnumerable('length'))
+}
+
+let obj = { 1: 1, 2: 2 }
+let ar = [1, 2, 3]
+console.log(isArray(obj))
+console.log(isArray(ar))
+
+//Array.reduce
+const array = [0, 1, 2, 3, 4].reduce(function (accumulator, currentValue, currentIndex, a) {
+    let res = accumulator + currentValue
+    return { res, accumulator, currentValue, currentIndex }
+})
+console.log(array)
+
+let ProtoHelper = function () { }
+
+ProtoHelper.prototype.dim = function (dimention, initial) {
+    let a = [], i
+    for (i = 0; i < dimention; i++) {
+        a[i] = initial
+    }
+    return a
+}
+
+let c = ProtoHelper.prototype.dim(10, 0)
+console.log(c)
+
+//Make matrix
+let Matrix = function () { }
+
+Matrix.prototype.matrix = function (m, n, initial) {
+    let a, i, j, mat = []
+    for (i = 0; i < m; i++) {
+        a = []
+        for (j = 0; j < n; j++) {
+            a[j] = initial
+            initial++
+        }
+        mat[i] = a
+    }
+    return mat
+}
+
+let newMtrix = Matrix.prototype.matrix(4, 4, 0)
+console.log(newMtrix)
